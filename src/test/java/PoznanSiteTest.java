@@ -23,13 +23,16 @@ public class PoznanSiteTest {
     public void checkAddressInformation(){
         open("https://www.poznan.pl/");
         $(byId("cookies-button-ok")).click();
+
         $(byId("id_ulica_street_lookup")).setValue("Uniwersytetu Poznańskiego 4").pressEnter();
         $(By.xpath("/html/body/div[2]/div[2]/div[1]/div[4]/img")).click();
         $(By.xpath("/html/body/div[2]/div[2]/div[1]/div[4]/img")).click();
+
         String postalCode = $(By.xpath("/html/body/div[2]/div[2]/div[1]/div[6]/div/div[1]/div/table[1]/tbody/tr[1]/td[2]")).getText();
         String localGovernment = $(By.xpath("/html/body/div[2]/div[2]/div[1]/div[6]/div/div[1]/div/table[1]/tbody/tr[3]/td[2]/div/div/a")).getText();
         String electoralCircuit = $(By.xpath("/html/body/div[2]/div[2]/div[1]/div[6]/div/div[1]/div/table[1]/tbody/tr[2]/td[2]/ul/li[1]/a")).getText();
         closeWindow();
+
         Assertions.assertEquals(postalCode, "61-614");
         Assertions.assertEquals(localGovernment, "Morasko-Radojewo");
         Assertions.assertEquals(electoralCircuit, "227");
@@ -39,6 +42,7 @@ public class PoznanSiteTest {
     public void getSearchResult() {
         open("https://www.poznan.pl/");
         $(byId("cookies-button-ok")).click();
+
         $(byClassName("search-container")).click();
         $(By.xpath("/html/body/div[1]/header/div/nav/div[1]/div[5]/form/fieldset/input")).click();
         $(byName("string")).setValue("auto").pressEnter();
@@ -61,9 +65,11 @@ public class PoznanSiteTest {
     public void checkCityPresident(){
         open("https://www.poznan.pl/");
         $(byId("cookies-button-ok")).click();
+
         $(By.xpath("/html/body/section/div/div/section[5]/div/div[4]/section[1]/div/div[2]/div/article[1]/a")).click();
         String text = $(By.xpath("/html/body/div[3]/div/div/div/article/ul/li[1]/p/a[1]")).getText();
         closeWindow();
+
         String[] splitText = text.split(" ");
         assertEquals(splitText[splitText.length-2] + " " + splitText[splitText.length-1], "Jacek Jaśkowiak");
     }
@@ -72,6 +78,7 @@ public class PoznanSiteTest {
     public void reportAnIntervention() {
         open("https://www.poznan.pl/");
         $(byId("cookies-button-ok")).click();
+
         $(By.xpath("/html/body/section/div/div/section[5]/div/div[3]/section[1]/div/article/p[2]/a")).click();
         $(By.xpath("/html/body/section[2]/div/div[2]/article/div/div/form/div[2]/div[2]/div/fieldset/label")).click();
         $(By.id("uz_kategoria")).click();
@@ -84,12 +91,12 @@ public class PoznanSiteTest {
         $(By.id("id_ulica_street_lookup")).setValue("Uniwersytetu Poznańskiego 4");
         $(By.id("id_ulica_street_submit")).click();
         $(By.xpath("/html/body/section[2]/div/div[2]/article/div/div/form[1]/div[2]/button")).click();
-
         $(By.name("goto_summary")).click();
 
         $(By.xpath("/html/body/section[2]/div/div[2]/article/div/div/form[1]/fieldset[2]/div[1]/div[2]/p")).shouldHave(Condition.text("Testowe zgłoszenie"));
         $(By.xpath("/html/body/section[2]/div/div[2]/article/div/div/form[1]/fieldset[2]/div[2]/div[2]/p")).shouldHave(Condition.text("Testowe zgłoszenie"));
         $(By.xpath("/html/body/section[2]/div/div[2]/article/div/div/form[1]/fieldset[5]/div/div[2]/p")).shouldHave(Condition.text("Testowe@zgłoszenie.com"));
+        closeWindow();
     }
 
 }
