@@ -4,13 +4,13 @@ import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
 import static junit.framework.TestCase.assertEquals;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import org.junit.Assert;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PoznanSiteTest {
 
@@ -58,6 +58,7 @@ public class PoznanSiteTest {
         $(byId("criteria_teatry")).click();
         $(byClassName("FormButton")).click();
         $(byId("search_counter")).equals("Znaleziono 26 wyników");
+
         closeWindow();
     }
 
@@ -96,6 +97,26 @@ public class PoznanSiteTest {
         $(By.xpath("/html/body/section[2]/div/div[2]/article/div/div/form[1]/fieldset[2]/div[1]/div[2]/p")).shouldHave(Condition.text("Testowe zgłoszenie"));
         $(By.xpath("/html/body/section[2]/div/div[2]/article/div/div/form[1]/fieldset[2]/div[2]/div[2]/p")).shouldHave(Condition.text("Testowe zgłoszenie"));
         $(By.xpath("/html/body/section[2]/div/div[2]/article/div/div/form[1]/fieldset[5]/div/div[2]/p")).shouldHave(Condition.text("Testowe@zgłoszenie.com"));
+
+        closeWindow();
+    }
+
+    @Test
+    public void checkNavigationMenu(){
+        open("https://www.poznan.pl/");
+        $(byId("cookies-button-ok")).click();
+
+        $(By.xpath("/html/body/div[1]/header/div/nav/div[1]/div[1]/a[2]")).click();
+        $(By.xpath("/html/body/div[1]/header/div/nav/div[1]/div[1]/div/div/ul[2]/li[7]/a")).click();
+        $(By.xpath("/html/body/div[1]/header/div/nav/div[1]/div[1]/div/div/ul[2]/li[7]/ul/li[6]/a")).should(Condition.text("Kuchnia wielkopolska")).click();
+        $(By.xpath("/html/body/section/div/div/section[3]/div/div/section/div/div[2]/div[3]/article/div/h3/a")).click();
+        $(By.xpath("/html/body/section[2]/div/div[2]/article/div[2]/div/div[4]/div/p[8]/a")).click();
+        ElementsCollection selenideElements = $$(By.xpath("/html/body/section[2]/div/div[2]/article/div[2]/div/div[2]/div/ul"));
+
+//        ArrayList<String> ingredients = new ArrayList<>();
+//        List<String> strings = selenideElements.texts().stream().toList();
+
+
         closeWindow();
     }
 
