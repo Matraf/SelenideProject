@@ -1,9 +1,9 @@
-# Testowanie UI za pomocą Selenide
-**Projekt na przedmiot "Wstęp do testowania" 2021/2022**
+# Testing UI with Selenide
+**Project for the "Introduction to testing" 2021/2022**
 
-# Zakres testów
-- test wyszukiwarki adresów na terenie miasta Poznań
-- test wyszukiwarki strony
-- test odnośników znajdujących się na stronie
-- test opcji zgłaszania interwencji do Straży Miejskiej
-- test menu strony
+# The scope of the tests
+- address finder test in the city of Poznań
+- page search engine test
+- test of links on the website
+- test of the option of reporting interventions to the Municipal Police
+- page menu test

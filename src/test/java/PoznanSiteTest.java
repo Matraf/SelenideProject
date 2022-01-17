@@ -7,6 +7,7 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 
 import java.util.List;
+import java.util.ListIterator;
 
 public class PoznanSiteTest {
 
@@ -36,27 +37,18 @@ public class PoznanSiteTest {
     }
 
     @Test
-    public void getSearchResult() {
+    public void getSearchResult() throws InterruptedException {
         open("https://www.poznan.pl/");
-        $(byId("cookies-button-ok")).click();
+        $(By.id("cookies-button-ok")).click();
 
-        $(byClassName("search-container")).click();
+        $(By.className("search-container")).click();
         $(By.xpath("/html/body/div[1]/header/div/nav/div[1]/div[5]/form/fieldset/input")).click();
-        $(byName("string")).setValue("auto").pressEnter();
-        $(byId("search_counter")).equals("Znaleziono 867 wyników");
-        $(By.xpath("/html/body/section/div/div/div[2]/div/div/form/div[2]/fieldset/div[2]/div[1]/span[1]"))
-                .should(Condition.text("Filtry"))
-                .click();
-        $(byId("criteria_obiekty")).click();
-        $(byId("criteria_klasy")).click();
-        $(byId("criteria_wiadmag")).click();
-        $(byId("criteria_oswiata")).click();
-        $(byId("criteria_lucene")).click();
-        $(byId("criteria_wydarzenia")).click();
-        $(byId("criteria_kina")).click();
-        $(byId("criteria_teatry")).click();
-        $(byClassName("FormButton")).click();
-        $(byId("search_counter")).equals("Znaleziono 26 wyników");
+        $(By.name("string")).setValue("Informatyka").pressEnter();
+        Thread.sleep(5000);
+        String searchCounter = $(By.id("search_counter")).getText();
+        ElementsCollection searchResults = $$(By.cssSelector("article"));
+        String[] splitSearchCounter = searchCounter.split(" ");
+        assertEquals(searchResults.size(), Integer.parseInt(splitSearchCounter[1]));
 
         closeWindow();
     }
@@ -120,6 +112,29 @@ public class PoznanSiteTest {
     }
 
     @Test
+    public void shouldNotGoFutherOnReportAnIntervention(){
+        open("https://www.poznan.pl/");
+        $(byId("cookies-button-ok")).click();
+
+        $(By.xpath("/html/body/section/div/div/section[5]/div/div[3]/section[1]/div/article/p[2]/a"))
+                .should(Condition.text("Zgłoś interwencję"))
+                .click();
+
+        $(By.xpath("/html/body/section[2]/div/div[2]/article/div/div/form/div[2]/div[2]/div/fieldset/label")).click();
+        $(By.id("uz_kategoria")).click();
+        $(By.xpath("/html/body/section[2]/div/div[2]/article/div/div/form/fieldset[1]/div/div[2]/select/optgroup[8]/option[9]")).click();
+        $(By.name("goto_summary"))
+                .should(Condition.text("Dalej >>"))
+                .click();
+
+        $(By.xpath("/html/body/section[2]/div/div[2]/article/div/div/form/div[1]/p"))
+                .shouldHave(Condition.text("Formularz został niepoprawnie wypełniony, liczba błędów: 3."));
+
+        closeWindow();
+    }
+
+
+    @Test
     public void checkNavigationMenu(){
         open("https://www.poznan.pl/");
         $(byId("cookies-button-ok")).click();
@@ -144,7 +159,7 @@ public class PoznanSiteTest {
         List<String> strings = selenideElements.texts().stream().toList();
         String ingredientsInOneString = strings.get(0);
         String[] split = ingredientsInOneString.split("\n");
-        assertEquals(split.length, 14);
+        Assertions.assertEquals(split.length, 14);
 
         closeWindow();
     }
